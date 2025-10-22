@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Flatbed.MDI.35": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.MDI\\net35\\Flatbed.MDI.exe",
+      "commandLineArgs": "\"/SAL_Path:C:\\Visual Studio Projects\\C#\\SAL\\Plugins\\bin\"",
+      "workingDirectory": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.MDI\\net35"
+    }
+  }
+}
