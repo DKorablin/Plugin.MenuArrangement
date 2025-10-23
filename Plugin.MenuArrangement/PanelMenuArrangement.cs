@@ -38,29 +38,14 @@ namespace Plugin.MenuArrangement
 				| DockAreas.DockLeft
 				| DockAreas.Float);
 
-			this.LoadHiddenItems();
+			this._hiddenItems = this.Plugin.Settings.GetHiddenMenuItemsSet();
 			this.LoadMenuItems();
+
 			tsbnReset.Enabled = !String.IsNullOrEmpty(this.Plugin.Settings.CustomMenuOrder) ||
-				!String.IsNullOrEmpty(this.Plugin.Settings.HiddenMenuItems);
+				this._hiddenItems.Count > 0;
 			tvMenuItems.ExpandAll();
 
 			base.OnCreateControl();
-		}
-
-		/// <summary>Load hidden items from settings</summary>
-		private void LoadHiddenItems()
-		{
-			this._hiddenItems = new System.Collections.Generic.HashSet<String>();
-			String hiddenStr = this.Plugin.Settings.HiddenMenuItems;
-			if(!String.IsNullOrEmpty(hiddenStr))
-			{
-				String[] items = hiddenStr.Split('|');
-				foreach(String item in items)
-				{
-					if(!String.IsNullOrEmpty(item))
-						this._hiddenItems.Add(item);
-				}
-			}
 		}
 
 		/// <summary>Get identifier for menu item</summary>
@@ -79,12 +64,14 @@ namespace Plugin.MenuArrangement
 			foreach(IMenuItem item in this.Plugin.HostWindows.MainMenu.Items)
 			{
 				TreeNode node = this.CreateTreeNode(item);
-				if(node != null)
-					tvMenuItems.Nodes.Add(node);
+				tvMenuItems.Nodes.Add(node);
 			}
 
 			if(tvMenuItems.Nodes.Count > 0)
+			{
 				tvMenuItems.SelectedNode = tvMenuItems.Nodes[0];
+				tvMenuItems.SelectedNode.EnsureVisible();
+			}
 		}
 
 		/// <summary>Create tree node from menu item recursively</summary>
@@ -111,8 +98,7 @@ namespace Plugin.MenuArrangement
 				foreach(IMenuItem childItem in subMenu.Items)
 				{
 					TreeNode childNode = this.CreateTreeNode(childItem);
-					if(childNode != null)
-						node.Nodes.Add(childNode);
+					node.Nodes.Add(childNode);
 				}
 			}
 
@@ -134,9 +120,9 @@ namespace Plugin.MenuArrangement
 			if(underlyingObject is ToolStripSeparator)
 			{
 				node.ForeColor = System.Drawing.Color.Gray;
-			} else if(underlyingObject is ToolStripMenuItem)
+			} /*else if(underlyingObject is ToolStripMenuItem)
 			{
-			} else if(underlyingObject is ToolStripButton ||
+			}*/ else if(underlyingObject is ToolStripButton ||
 					  underlyingObject is ToolStripLabel ||
 					  underlyingObject is ToolStripComboBox ||
 					  underlyingObject is ToolStripTextBox)
@@ -468,7 +454,30 @@ namespace Plugin.MenuArrangement
 				if(menuItem.Object is ToolStripItem toolStripItem)
 					toolStripItem.Visible = e.Node.Checked;
 
-				this.Plugin.Settings.HiddenMenuItems = String.Join("|", this._hiddenItems.ToArray());
+				this.Plugin.Settings.SetHiddenMenuItemsSet(this._hiddenItems);
+			}
+		}
+
+		private void tvMenuItems_KeyDown(Object sender, KeyEventArgs e)
+		{
+			switch(e.KeyCode)
+			{
+			case Keys.Up:
+				if(e.Control && tsbnMoveUp.Enabled)
+					this.btnMoveUp_Click(sender, e);
+				break;
+			case Keys.Down:
+				if(e.Control && tsbnMoveDown.Enabled)
+					this.tsbnMoveDown_Click(sender, e);
+				break;
+			case Keys.Right:
+				if(e.Control && tsbnIndent.Enabled)
+					this.tsbnIndent_Click(sender, e);
+				break;
+			case Keys.Left:
+				if(e.Control && tsbnOutdent.Enabled)
+					this.tsbnOutdent_Click(sender, e);
+				break;
 			}
 		}
 
@@ -488,7 +497,7 @@ namespace Plugin.MenuArrangement
 		private void btnReset_Click(Object sender, EventArgs e)
 		{
 			this.Plugin.Settings.CustomMenuOrder = null;
-			this.Plugin.Settings.HiddenMenuItems = null;
+			this.Plugin.Settings.SetHiddenMenuItemsSet(null);
 			_hiddenItems.Clear();
 		}
 	}

@@ -34,8 +34,8 @@ namespace Plugin.MenuArrangement
 			this.tsbnMoveUp = new System.Windows.Forms.ToolStripButton();
 			this.tsbnMoveDown = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.tsbnIndent = new System.Windows.Forms.ToolStripButton();
 			this.tsbnOutdent = new System.Windows.Forms.ToolStripButton();
+			this.tsbnIndent = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.tsbnReset = new System.Windows.Forms.ToolStripButton();
 			this.tsMain.SuspendLayout();
@@ -57,6 +57,7 @@ namespace Plugin.MenuArrangement
 			this.tvMenuItems.DragDrop += new System.Windows.Forms.DragEventHandler(this.tvMenuItems_DragDrop);
 			this.tvMenuItems.DragEnter += new System.Windows.Forms.DragEventHandler(this.tvMenuItems_DragEnter);
 			this.tvMenuItems.DragOver += new System.Windows.Forms.DragEventHandler(this.tvMenuItems_DragOver);
+			this.tvMenuItems.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tvMenuItems_KeyDown);
 			// 
 			// tsMain
 			// 
@@ -100,17 +101,6 @@ namespace Plugin.MenuArrangement
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
 			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
 			// 
-			// tsbnIndent
-			// 
-			this.tsbnIndent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.tsbnIndent.Enabled = false;
-			this.tsbnIndent.Image = ((System.Drawing.Image)(resources.GetObject("tsbnIndent.Image")));
-			this.tsbnIndent.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.tsbnIndent.Name = "tsbnIndent";
-			this.tsbnIndent.Size = new System.Drawing.Size(23, 22);
-			this.tsbnIndent.Text = "&Indent →";
-			this.tsbnIndent.Click += new System.EventHandler(this.tsbnIndent_Click);
-			// 
 			// tsbnOutdent
 			// 
 			this.tsbnOutdent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -121,6 +111,17 @@ namespace Plugin.MenuArrangement
 			this.tsbnOutdent.Size = new System.Drawing.Size(23, 22);
 			this.tsbnOutdent.Text = "← &Outdent";
 			this.tsbnOutdent.Click += new System.EventHandler(this.tsbnOutdent_Click);
+			// 
+			// tsbnIndent
+			// 
+			this.tsbnIndent.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbnIndent.Enabled = false;
+			this.tsbnIndent.Image = ((System.Drawing.Image)(resources.GetObject("tsbnIndent.Image")));
+			this.tsbnIndent.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsbnIndent.Name = "tsbnIndent";
+			this.tsbnIndent.Size = new System.Drawing.Size(23, 22);
+			this.tsbnIndent.Text = "&Indent →";
+			this.tsbnIndent.Click += new System.EventHandler(this.tsbnIndent_Click);
 			// 
 			// toolStripSeparator2
 			// 

@@ -29,17 +29,9 @@ namespace Plugin.MenuArrangement.Logic
 		/// <summary>Restore hidden items visibility from settings</summary>
 		public static void RestoreHiddenItems(Plugin plugin)
 		{
-			String hiddenStr = plugin.Settings.HiddenMenuItems;
-			if(String.IsNullOrEmpty(hiddenStr))
-				return; // No hidden items
-
-			HashSet<String> hiddenItems = new HashSet<String>();
-			String[] items = hiddenStr.Split('|');
-			foreach(String item in items)
-			{
-				if(!String.IsNullOrEmpty(item))
-					hiddenItems.Add(item);
-			}
+			HashSet<String> hiddenItems = plugin.Settings.GetHiddenMenuItemsSet();
+			if(hiddenItems.Count == 0)
+				return;
 
 			MenuVisibilityRestorer restorer = new MenuVisibilityRestorer(plugin.HostWindows.MainMenu);
 			restorer.ApplyHiddenItems(hiddenItems);

@@ -17,13 +17,13 @@
 		<PackageId>AlphaOmega.SAL.Plugin.MenuArrangement</PackageId>
 		<Version>$(Version)</Version>
 		<Title>Menu arrangement plugin for Winfows forms flatbed hosts with ToolBar</Title>
-		<Description></Description>
+		<Description>This plugin provides functionality to arrange and customize the order of menu items in a ToolBar for Windows Forms applications using the SAL (Software Abstraction Layer) framework. It allows users to define a custom menu order, which is persisted across sessions.</Description>
 		<Authors>Danila Korablin</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>docs\README.md</PackageReadmeFile>
 		<PackageIcon>docs\SAL.100.png</PackageIcon>
 		<RepositoryUrl>https://github.com/DKorablin/Plugin.MenuArrangement</RepositoryUrl>
-		<PackageTags>SAL plugin windows configuration</PackageTags>
+		<PackageTags>SAL plugin windows forms menu toolbar arrangement configuration</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
