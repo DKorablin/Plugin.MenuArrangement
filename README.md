@@ -1,4 +1,5 @@
 # Menu Arrangement Plugin for SAL Windows Forms
+[![Auto build](https://github.com/DKorablin/Plugin.MenuArrangement/actions/workflows/release.yml/badge.svg)](https://github.com/DKorablin/Plugin.MenuArrangement/releases/latest)
 
 Provides UI and storage logic for arranging and persisting the order of menu / toolbar items in SAL-based Windows Forms host applications.
 
