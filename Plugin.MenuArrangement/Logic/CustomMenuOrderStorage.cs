@@ -145,7 +145,7 @@ namespace Plugin.MenuArrangement.Logic
 					index++;
 
 					// If this item has children (is a menu), recursively reorder them
-					if(item is IMenu subMenu && subMenu.IsDropDown)
+					if(item is IMenu subMenu)
 					{
 						// Find the range of entries that are children of this item
 						List<String> childEntries = new List<String>();
