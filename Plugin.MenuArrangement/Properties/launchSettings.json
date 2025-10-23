@@ -5,6 +5,12 @@
       "executablePath": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.MDI\\net35\\Flatbed.MDI.exe",
       "commandLineArgs": "\"/SAL_Path:C:\\Visual Studio Projects\\C#\\SAL\\Plugins\\bin\"",
       "workingDirectory": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.MDI\\net35"
+    },
+    "Flatbed.Dialog.35": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.Dialog\\net35\\Flatbed.Dialog.exe",
+      "commandLineArgs": "\"/SAL_Path:C:\\Visual Studio Projects\\C#\\SAL\\Plugins\\bin\"",
+      "workingDirectory": "C:\\Visual Studio Projects\\C#\\SAL\\bin\\Flatbed.Dialog\\net35"
     }
   }
 }

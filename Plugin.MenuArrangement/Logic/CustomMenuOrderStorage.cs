@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using SAL.Flatbed;
 using SAL.Windows;
@@ -25,15 +22,8 @@ namespace Plugin.MenuArrangement.Logic
 			if(String.IsNullOrEmpty(menuOrder))
 				return; // No custom order saved
 
-			try
-			{
-				MenuOrderRestorer restorer = new MenuOrderRestorer(plugin.HostWindows.MainMenu);
-				restorer.DeserializeAndApply(menuOrder);
-			} catch(Exception exc)
-			{
-				// If restore fails, just use default order
-				plugin.Trace.TraceData(TraceEventType.Warning, 1, $"Failed to restore menu order: {exc.Message}");
-			}
+			MenuOrderRestorer restorer = new MenuOrderRestorer(plugin.HostWindows.MainMenu);
+			restorer.DeserializeAndApply(menuOrder);
 		}
 
 		/// <summary>Restore hidden items visibility from settings</summary>
@@ -43,23 +33,16 @@ namespace Plugin.MenuArrangement.Logic
 			if(String.IsNullOrEmpty(hiddenStr))
 				return; // No hidden items
 
-			try
+			HashSet<String> hiddenItems = new HashSet<String>();
+			String[] items = hiddenStr.Split('|');
+			foreach(String item in items)
 			{
-				HashSet<String> hiddenItems = new HashSet<String>();
-				String[] items = hiddenStr.Split('|');
-				foreach(String item in items)
-				{
-					if(!String.IsNullOrEmpty(item))
-						hiddenItems.Add(item);
-				}
-
-				MenuVisibilityRestorer restorer = new MenuVisibilityRestorer(plugin.HostWindows.MainMenu);
-				restorer.ApplyHiddenItems(hiddenItems);
-			} catch(Exception exc)
-			{
-				// If restore fails, just show all items
-				plugin.Trace.TraceData(TraceEventType.Warning, 1, $"Failed to restore hidden items: {exc.Message}");
+				if(!String.IsNullOrEmpty(item))
+					hiddenItems.Add(item);
 			}
+
+			MenuVisibilityRestorer restorer = new MenuVisibilityRestorer(plugin.HostWindows.MainMenu);
+			restorer.ApplyHiddenItems(hiddenItems);
 		}
 
 		/// <summary>Serialize menu order to string</summary>

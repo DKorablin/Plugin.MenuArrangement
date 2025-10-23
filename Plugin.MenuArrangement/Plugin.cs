@@ -79,9 +79,14 @@ namespace Plugin.MenuArrangement
 
 		private void Host_PluginsLoaded(Object sender, EventArgs e)
 		{
-			// Restore custom menu order if available
-			CustomMenuOrderStorage.RestoreMenuOrder(this);
-			CustomMenuOrderStorage.RestoreHiddenItems(this);
+			try
+			{
+				CustomMenuOrderStorage.RestoreMenuOrder(this);
+				CustomMenuOrderStorage.RestoreHiddenItems(this);
+			}catch(Exception exc)
+			{
+				this.Trace.TraceData(TraceEventType.Error, 20, $"Failed to restore menu arrangement: {exc.Message}");
+			}
 		}
 
 		internal IWindow CreateWindow(String typeName, Boolean searchForOpened, Object args = null)
