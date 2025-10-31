@@ -25,6 +25,3 @@ Provides UI and storage logic for arranging and persisting the order of menu / t
 
 ## Persistence
 Ordering data is saved using the plugin's storage abstraction. Review `CustomMenuOrderStorage.cs` for extension or customization.
-
-## License
-MIT
