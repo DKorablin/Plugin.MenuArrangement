@@ -85,7 +85,7 @@ namespace Plugin.MenuArrangement
 				CustomMenuOrderStorage.RestoreHiddenItems(this);
 			}catch(Exception exc)
 			{
-				this.Trace.TraceData(TraceEventType.Error, 20, $"Failed to restore menu arrangement: {exc.Message}");
+				this.Trace.TraceData(TraceEventType.Error, 20, exc);
 			}
 		}
 

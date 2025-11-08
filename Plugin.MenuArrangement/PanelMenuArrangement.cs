@@ -138,32 +138,8 @@ namespace Plugin.MenuArrangement
 			if(menuItem == null)
 				return "[Unknown]";
 
-			// Get the underlying object
-			Object underlyingObject = null;
-			if(menuItem is IHostItem hostItem)
-				underlyingObject = hostItem.Object;
-
-			// Handle different menu item types
-			if(underlyingObject is ToolStripSeparator)
-				return "─────────────";
-			else if(underlyingObject is ToolStripMenuItem)
-			{
-				String text = menuItem.Text;
-				return String.IsNullOrEmpty(text) ? "[Empty Menu Item]" : text;
-			} else if(underlyingObject is ToolStripButton)
-				return "[Button: " + menuItem.Text + "]";
-			else if(underlyingObject is ToolStripLabel)
-				return "[Label: " + menuItem.Text + "]";
-			else if(underlyingObject is ToolStripComboBox)
-				return "[ComboBox: " + menuItem.Text + "]";
-			else if(underlyingObject is ToolStripTextBox)
-				return "[TextBox: " + menuItem.Text + "]";
-			else
-			{
-				// Default fallback
-				String text = menuItem.Text;
-				return String.IsNullOrEmpty(text) ? "[Menu Item]" : text;
-			}
+			String text = menuItem.Text;
+			return String.IsNullOrEmpty(text) ? "[Menu Item]" : text;
 		}
 
 		/// <summary>Update button states based on selection</summary>
@@ -207,7 +183,7 @@ namespace Plugin.MenuArrangement
 			if(collection == null || item == null)
 				return -1;
 			for(Int32 i = 0; i < collection.Count; i++)
-				if(collection[i] == item)
+				if(collection[i].Object == item.Object)
 					return i;
 			return -1;
 		}

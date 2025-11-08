@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using SAL.Flatbed;
 using SAL.Windows;
 
 namespace Plugin.MenuArrangement.Logic
@@ -72,9 +70,7 @@ namespace Plugin.MenuArrangement.Logic
 		private Dictionary<String, IMenuItem> _menuItemMap;
 
 		public MenuOrderRestorer(IMenu rootMenu)
-		{
-			this._rootMenu = rootMenu ?? throw new ArgumentNullException(nameof(rootMenu));
-		}
+			=> this._rootMenu = rootMenu ?? throw new ArgumentNullException(nameof(rootMenu));
 
 		/// <summary>Deserialize and apply menu order</summary>
 		public void DeserializeAndApply(String menuOrder)
@@ -87,10 +83,10 @@ namespace Plugin.MenuArrangement.Logic
 
 			// Build a map of menu items by identifier for quick lookup
 			this._menuItemMap = new Dictionary<String, IMenuItem>();
-			BuildMenuItemMap(this._rootMenu.Items, this._menuItemMap);
+			this.BuildMenuItemMap(this._rootMenu.Items, this._menuItemMap);
 
 			// Apply the order hierarchically
-			ApplyMenuOrderFromEntries(this._rootMenu, entries, 0);
+			this.ApplyMenuOrderFromEntries(this._rootMenu, entries, 0);
 		}
 
 		/// <summary>Build a map of all menu items by their identifier</summary>
@@ -107,9 +103,7 @@ namespace Plugin.MenuArrangement.Logic
 
 				// Recursively map children
 				if(item is IMenu subMenu && subMenu.IsDropDown)
-				{
-					BuildMenuItemMap(subMenu.Items, map);
-				}
+					this.BuildMenuItemMap(subMenu.Items, map);
 			}
 		}
 
@@ -165,14 +159,10 @@ namespace Plugin.MenuArrangement.Logic
 
 						// Recursively apply order to children
 						if(childEntries.Count > 0)
-						{
-							ApplyMenuOrderFromEntries(subMenu, childEntries.ToArray(), currentLevel + 1);
-						}
+							this.ApplyMenuOrderFromEntries(subMenu, childEntries.ToArray(), currentLevel + 1);
 					}
 				} else
-				{
 					index++;
-				}
 			}
 
 			// Reorder items at current level by moving them to correct positions
@@ -187,14 +177,12 @@ namespace Plugin.MenuArrangement.Logic
 					// Find where item currently exists (search from root to find it anywhere)
 					IMenu currentParent = null;
 					Int32 currentIndex = -1;
-					FindItemLocation(this._rootMenu, item, ref currentParent, ref currentIndex);
+					this.FindItemLocation(this._rootMenu, item, ref currentParent, ref currentIndex);
 
 					// Check if item is already at correct position in this menu
 					Boolean isAtCorrectPosition = false;
 					if(currentParent.Object == menu.Object && currentIndex == i)
-					{
 						isAtCorrectPosition = true;
-					}
 
 					// If item needs to be moved
 					if(!isAtCorrectPosition && currentParent != null && currentIndex >= 0)
@@ -229,11 +217,10 @@ namespace Plugin.MenuArrangement.Logic
 			// Recursively search in submenus
 			foreach(IMenuItem item in menu.Items)
 			{
-				if(item is IMenu subMenu && subMenu.IsDropDown)
-				{
-					if(FindItemLocation(subMenu, itemToFind, ref parentMenu, ref index))
-						return true;
-				}
+				if(item is IMenu subMenu
+					&& subMenu.IsDropDown
+					&& this.FindItemLocation(subMenu, itemToFind, ref parentMenu, ref index))
+					return true;
 			}
 
 			return false;
@@ -246,15 +233,11 @@ namespace Plugin.MenuArrangement.Logic
 		private readonly IMenu _rootMenu;
 
 		public MenuVisibilityRestorer(IMenu rootMenu)
-		{
-			this._rootMenu = rootMenu ?? throw new ArgumentNullException(nameof(rootMenu));
-		}
+			=> this._rootMenu = rootMenu ?? throw new ArgumentNullException(nameof(rootMenu));
 
 		/// <summary>Apply hidden items visibility</summary>
 		public void ApplyHiddenItems(HashSet<String> hiddenItems)
-		{
-			ApplyHiddenItemsRecursive(this._rootMenu.Items, hiddenItems);
-		}
+			=> this.ApplyHiddenItemsRecursive(this._rootMenu.Items, hiddenItems);
 
 		/// <summary>Apply hidden state recursively</summary>
 		private void ApplyHiddenItemsRecursive(IMenuItemCollection items, HashSet<String> hiddenItems)
@@ -263,25 +246,10 @@ namespace Plugin.MenuArrangement.Logic
 			{
 				String identifier = !String.IsNullOrEmpty(item.Name) ? item.Name : item.Text;
 
-				// Recursively process children FIRST (depth-first)
-				if(item is IMenu subMenu && subMenu.IsDropDown)
-				{
-					ApplyHiddenItemsRecursive(subMenu.Items, hiddenItems);
-				}
-
-				// Then apply visibility to this item
-				if(!String.IsNullOrEmpty(identifier))
-				{
-					// Access the underlying ToolStripItem to set visibility
-					if(item is IHostItem hostItem && hostItem.Object is ToolStripItem toolStripItem)
-					{
-						// Only hide if this specific item is in the hidden list
-						if(hiddenItems.Contains(identifier))
-						{
-							toolStripItem.Visible = false;
-						}
-					}
-				}
+				if(!String.IsNullOrEmpty(identifier) && hiddenItems.Contains(identifier))// Then apply visibility to this item
+					item.Object.GetType().GetProperty("Visible")?.SetValue(item.Object, false, null);
+				else if(item.IsDropDown)// Recursively process children FIRST (depth-first)
+					this.ApplyHiddenItemsRecursive(item.Items, hiddenItems);
 			}
 		}
 	}
