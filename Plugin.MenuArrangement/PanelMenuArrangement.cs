@@ -11,8 +11,8 @@ namespace Plugin.MenuArrangement
 	/// <summary>Dialog for rearranging menu items at runtime</summary>
 	public partial class PanelMenuArrangement : UserControl
 	{
-		private Plugin Plugin { get => (Plugin)this.Window.Plugin; }
-		private IWindow Window { get => (IWindow)base.Parent; }
+		private Plugin Plugin => (Plugin)this.Window.Plugin.Instance;
+		private IWindow Window => (IWindow)base.Parent;
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		private static extern Int32 SendMessage(IntPtr hWnd, Int32 msg, Int32 wParam, Int32 lParam);
