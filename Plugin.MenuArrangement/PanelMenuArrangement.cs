@@ -1,6 +1,5 @@
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Plugin.MenuArrangement.Logic;
@@ -269,7 +268,7 @@ namespace Plugin.MenuArrangement
 				return;
 			TreeNode parentNode = selectedNode.Parent;
 			Int32 newIndex = selectedNode.Index - 1;
-			MoveNode(selectedNode, parentNode, newIndex);
+			this.MoveNode(selectedNode, parentNode, newIndex);
 		}
 
 		/// <summary>Move selected item down</summary>
@@ -283,7 +282,7 @@ namespace Plugin.MenuArrangement
 			if(selectedNode.Index >= maxIndex)
 				return;
 			Int32 newIndex = selectedNode.Index + 1;
-			MoveNode(selectedNode, parentNode, newIndex);
+			this.MoveNode(selectedNode, parentNode, newIndex);
 		}
 
 		/// <summary>Indent selected item (make it child of previous sibling)</summary>
@@ -298,7 +297,7 @@ namespace Plugin.MenuArrangement
 				: parentNode.Nodes[selectedNode.Index - 1];
 			// Add as last child
 			Int32 newIndex = newParentNode.Nodes.Count; // append
-			MoveNode(selectedNode, newParentNode, newIndex);
+			this.MoveNode(selectedNode, newParentNode, newIndex);
 		}
 
 		/// <summary>Outdent selected item (move it up one level)</summary>
@@ -314,7 +313,7 @@ namespace Plugin.MenuArrangement
 			// Insert after parent in grandparent (or root)
 			Int32 parentIndex = parentNode.Index;
 			Int32 insertIndex = parentIndex + 1;
-			MoveNode(selectedNode, grandParentNode, insertIndex);
+			this.MoveNode(selectedNode, grandParentNode, insertIndex);
 		}
 
 		/// <summary>Drag and drop support - begin drag</summary>
@@ -407,7 +406,7 @@ namespace Plugin.MenuArrangement
 				insertIndex = targetNode.Nodes.Count;
 			}
 
-			MoveNode(dragNode, parentNode, insertIndex);
+			this.MoveNode(dragNode, parentNode, insertIndex);
 		}
 
 		/// <summary>Handle checkbox state changes</summary>

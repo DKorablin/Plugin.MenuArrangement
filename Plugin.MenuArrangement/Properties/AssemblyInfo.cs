@@ -5,4 +5,3 @@ using System.Runtime.InteropServices;
 [assembly: System.CLSCompliant(true)]
 
 [assembly: AssemblyDescription("UI to arrange menu items")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2025")]
